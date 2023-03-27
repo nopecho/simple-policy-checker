@@ -1,0 +1,21 @@
+spring:
+  application:
+    name: policy
+
+  datasource:
+    url: jdbc:postgresql://localhost:5454/policy
+    username: policy
+    password: 1234
+  jpa:
+    properties:
+      hibernate:
+        format_sql: true
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    generate-ddl: true
+    database: POSTGRESQL
+
+  cloud:
+    config:
+      enabled: false

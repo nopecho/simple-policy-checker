@@ -1,0 +1,6 @@
+rootProject.name = 'simple-policy-checker'
+include 'core'
+include 'boot-server'
+include 'boot-server:policy'
+findProject(':boot-server:policy')?.name = 'policy'
+
