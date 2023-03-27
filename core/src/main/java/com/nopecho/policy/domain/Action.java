@@ -4,17 +4,20 @@ import com.nopecho.utils.Throw;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Table(name = "policy_statement_action")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-public class Action {
+public class Action extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+
+    private String name;
 
     @Enumerated(EnumType.STRING)
     private ActionType actionType;
@@ -26,17 +29,17 @@ public class Action {
     @JoinColumn(name = "statement_id")
     private Statement statement;
 
-    public static Action ofWebHook(RequestTemplate template) {
+    public static Action ofWebHook(String name, RequestTemplate template) {
         Throw.ifNull(template, "RequestTemplate");
-        return new Action(null, ActionType.WEBHOOK, template, null);
+        return new Action(null, Objects.requireNonNull(name, ""), ActionType.WEBHOOK, template, null);
     }
 
-    public static Action ofAllowed() {
-        return new Action(null, ActionType.AllOWED, RequestTemplate.none(), null);
+    public static Action ofAllowed(String name) {
+        return new Action(null, Objects.requireNonNull(name, ""), ActionType.AllOWED, RequestTemplate.none(), null);
     }
 
-    public static Action ofDeny() {
-        return new Action(null, ActionType.DENY, RequestTemplate.none(), null);
+    public static Action ofDeny(String name) {
+        return new Action(null, Objects.requireNonNull(name, ""), ActionType.DENY, RequestTemplate.none(), null);
     }
 
     public void setStatement(Statement statement) {
