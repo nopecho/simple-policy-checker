@@ -1,6 +1,5 @@
 package com.nopecho.policy.domain;
 
-import com.nopecho.policy.domain.factor.Factor;
 import com.nopecho.utils.Throw;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;

@@ -1,6 +1,5 @@
 package com.nopecho.policy.domain;
 
-import com.nopecho.policy.domain.factor.Factor;
 import com.nopecho.utils.JsonUtils;
 import com.nopecho.utils.Throw;
 import lombok.*;
@@ -8,7 +7,6 @@ import lombok.*;
 import javax.persistence.Embeddable;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import java.util.List;
 
 @Embeddable
 @Getter

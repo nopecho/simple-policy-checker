@@ -1,5 +1,7 @@
-package com.nopecho.policy.domain.factor;
+package com.nopecho.policy.domain;
+
 
 public interface Factor {
+
     String toJsonString();
 }
