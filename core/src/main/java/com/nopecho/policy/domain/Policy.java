@@ -34,17 +34,15 @@ public class Policy extends BaseTimeEntity {
         return new Policy(id, name, description, new HashSet<>());
     }
 
-    public Set<Spec> getSpecsFor(Factor factor) {
-        return this.statements.stream()
-                .filter(statement -> statement.isSupport(factor))
+    public Set<Spec> getSpecsFromSupported(Factor factor) {
+        return findSupportedStatement(factor).stream()
                 .map(Statement::getSpecs)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
     }
 
     public Set<Action> apply(Factor factor) {
-        return this.statements.stream()
-                .filter(statement -> statement.isSupport(factor))
+        return findSupportedStatement(factor).stream()
                 .filter(Statement::conditionCheck)
                 .map(Statement::getActions)
                 .flatMap(Set::stream)
@@ -54,6 +52,12 @@ public class Policy extends BaseTimeEntity {
     public void addStatement(Statement statement) {
         this.statements.add(statement);
         statement.setPolicy(this);
+    }
+
+    private Set<Statement> findSupportedStatement(Factor factor) {
+        return this.statements.stream()
+                .filter(statement -> statement.isSupport(factor))
+                .collect(Collectors.toSet());
     }
 
     private static void throwIfInvalidArgs(Long id, String name) {

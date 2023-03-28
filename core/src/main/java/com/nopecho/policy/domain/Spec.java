@@ -1,7 +1,6 @@
 package com.nopecho.policy.domain;
 
 import com.nopecho.policy.domain.converter.OperatorAttributeConverter;
-import com.nopecho.policy.domain.factor.Factor;
 import com.nopecho.utils.Throw;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,7 @@ public class Spec extends BaseTimeEntity {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
 
-    @Embedded
+    @OneToOne(cascade = CascadeType.ALL)
     private SpecActual actual;
 
     @Convert(converter = OperatorAttributeConverter.class)
@@ -50,25 +49,10 @@ public class Spec extends BaseTimeEntity {
     }
 
     public boolean isSatisfy() {
-        SpecActualDetail detail = this.actual.getActualDetail();
+        SpecActual actual = this.actual;
         SpecExpect expect = this.expect;
-        this.typeValidation(detail.getOperatorType(), expect.getType());
-
-        if(SpecActualDetailType.STATIC.equals(detail.getDetailType())) {
-            SpecStaticActualDetail staticActual = this.castStatic(detail);
-            return this.operator.isSatisfy().test(staticActual, expect);
-        }
-
-        SpecDynamicActualDetail dynamicActual = castDynamic(detail);
-        return this.operator.isSatisfy().test(dynamicActual, expect);
-    }
-
-    private SpecDynamicActualDetail castDynamic(SpecActualDetail detail) {
-        return (SpecDynamicActualDetail) detail;
-    }
-
-    private SpecStaticActualDetail castStatic(SpecActualDetail detail) {
-        return (SpecStaticActualDetail) detail;
+        this.typeValidation(actual.getOperatorType(), expect.getOperatorType());
+        return this.operator.isSatisfy().test(actual, expect);
     }
 
     private void typeValidation(OperatorType type1, OperatorType type2) {

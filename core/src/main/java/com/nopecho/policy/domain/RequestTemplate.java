@@ -55,10 +55,9 @@ public class RequestTemplate {
         this.accessField = accessField;
     }
 
-    public String replaceBody(Factor factor, List<String> supports) {
+    public String replaceVariableBody(Factor factor, String supportedVariable) {
         String result = this.body;
-        supports.forEach(v -> JsonUtils.replaceJsonVariable(result, factor, v));
-        return result;
+        return JsonUtils.replaceJsonVariable(result, factor, supportedVariable);
     }
 
     private static void throwIfInvalidArgs(RequestType type,

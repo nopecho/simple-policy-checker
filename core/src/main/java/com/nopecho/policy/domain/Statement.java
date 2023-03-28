@@ -26,7 +26,7 @@ public class Statement extends BaseTimeEntity {
     private Long id;
 
     @ElementCollection
-    private Set<String> supportFactorKeys;
+    private Set<String> supportVariables;
 
     @OneToMany(mappedBy = "statement", cascade = CascadeType.ALL)
     private Set<Action> actions;
@@ -48,7 +48,7 @@ public class Statement extends BaseTimeEntity {
     }
 
     public boolean isSupport(Factor factor) {
-        return this.supportFactorKeys.stream()
+        return this.supportVariables.stream()
                 .allMatch(key -> JsonUtils.isExistPropertyKeyFrom(factor, key));
     }
 

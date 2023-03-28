@@ -42,6 +42,21 @@ public class Action extends BaseTimeEntity {
         return new Action(null, Objects.requireNonNull(name, ""), ActionType.DENY, RequestTemplate.none(), null);
     }
 
+    public boolean getActionValue() {
+        if(isWebHook()) {
+            return true;
+        }
+        return isAllowed();
+    }
+
+    public boolean isWebHook() {
+        return ActionType.WEBHOOK.equals(this.actionType);
+    }
+
+    public boolean isAllowed() {
+        return ActionType.AllOWED.equals(this.actionType);
+    }
+
     public void setStatement(Statement statement) {
         this.statement = statement;
     }

@@ -90,9 +90,9 @@ public enum Operator {
 
     private OperatorType type;
     private String value;
-    private BiPredicate<SpecActualDetail, SpecExpect> isSatisfy;
+    private BiPredicate<SpecActual, SpecExpect> isSatisfy;
 
-    public BiPredicate<SpecActualDetail, SpecExpect> isSatisfy() {
+    public BiPredicate<SpecActual, SpecExpect> isSatisfy() {
         return this.isSatisfy;
     }
 

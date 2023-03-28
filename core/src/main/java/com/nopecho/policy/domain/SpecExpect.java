@@ -20,7 +20,7 @@ public class SpecExpect {
 
     @Column(name = "expect_operator_type")
     @Enumerated(EnumType.STRING)
-    private OperatorType type;
+    private OperatorType operatorType;
     private String expectValue;
 
     public static SpecExpect of(OperatorType type, String value) {
@@ -31,7 +31,7 @@ public class SpecExpect {
 
     public <T> T getExpectValue(Class<T> classOfT) {
         try {
-            Object toObject = OperatorMapper.convertToObject(this.type, this.expectValue);
+            Object toObject = OperatorMapper.convertToObject(this.operatorType, this.expectValue);
             return classOfT.cast(toObject);
         } catch (Exception e) {
             throw new IllegalStateException(String.format("[%s] > [%s] 변환 실패", this.expectValue, classOfT.getSimpleName()));
