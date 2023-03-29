@@ -9,7 +9,7 @@ public interface Response {
     @Data
     @AllArgsConstructor
     @NoArgsConstructor
-    class PolicyApplyResult {
+    class PolicyResult {
         Long policyId;
         Boolean result;
     }

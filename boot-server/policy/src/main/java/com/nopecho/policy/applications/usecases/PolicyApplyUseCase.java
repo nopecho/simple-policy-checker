@@ -4,5 +4,5 @@ import com.nopecho.policy.applications.usecases.models.Request;
 import com.nopecho.policy.applications.usecases.models.Response;
 
 public interface PolicyApplyUseCase {
-    Response.PolicyApplyResult apply(Request.FactorModel factorModel);
+    Response.PolicyResult apply(Request.FactorModel factorModel);
 }

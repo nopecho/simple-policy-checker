@@ -24,7 +24,7 @@ public class PolicyApplyService implements PolicyApplyUseCase {
     private final ActionPerformPort actionPort;
 
     @Override
-    public Response.PolicyApplyResult apply(Request.FactorModel factorModel) {
+    public Response.PolicyResult apply(Request.FactorModel factorModel) {
         Policy policy = loadPort.loadById(factorModel.getPolicyId());
         Factor factor = FactorGenerator.gen(factorModel);
         Set<String> supportedVariable = policy.getSupportVariable(factor);
@@ -36,7 +36,7 @@ public class PolicyApplyService implements PolicyApplyUseCase {
 
         resetSpecs(policy, factor);
 
-        return new Response.PolicyApplyResult(policy.getPolicyId(), true);
+        return new Response.PolicyResult(policy.getPolicyId(), true);
     }
 
     private void resolveVariableSpecs(Policy policy, Factor factor, Set<String> supportedVariable) {
