@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -44,6 +45,13 @@ public class Policy extends BaseTimeEntity {
         return findSupportedStatement(factor).stream()
                 .filter(Statement::conditionCheck)
                 .map(Statement::getActions)
+                .flatMap(Set::stream)
+                .collect(Collectors.toSet());
+    }
+
+    public Set<String> getSupportVariable(Factor factor) {
+        return findSupportedStatement(factor).stream()
+                .map(Statement::getSupportVariables)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
     }

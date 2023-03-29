@@ -3,7 +3,7 @@ spring:
     name: policy
 
   datasource:
-    url: jdbc:postgresql://localhost:5454/policy
+    url: jdbc:postgresql://localhost:5400/policy
     username: policy
     password: 1234
   jpa:
