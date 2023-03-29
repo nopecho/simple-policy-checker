@@ -1,7 +1,7 @@
 package com.nopecho.policy.adapters.out;
 
 
-import com.nopecho.policy.adapters.out.external.VariableRequestHandlers;
+import com.nopecho.policy.adapters.out.handlers.VariableRequestHandlers;
 import com.nopecho.policy.applications.ports.out.SpecVariablePort;
 import com.nopecho.policy.domain.Factor;
 import com.nopecho.policy.domain.RequestTemplate;

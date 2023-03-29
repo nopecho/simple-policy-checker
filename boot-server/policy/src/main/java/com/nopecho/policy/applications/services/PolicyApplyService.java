@@ -1,9 +1,10 @@
 package com.nopecho.policy.applications.services;
 
 import com.nopecho.policy.applications.ports.out.*;
-import com.nopecho.policy.applications.services.generators.FactorGenerator;
+import com.nopecho.policy.applications.services.factors.FactorGenerator;
 import com.nopecho.policy.applications.usecases.PolicyApplyUseCase;
 import com.nopecho.policy.applications.usecases.models.Request;
+import com.nopecho.policy.applications.usecases.models.Response;
 import com.nopecho.policy.domain.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,7 @@ public class PolicyApplyService implements PolicyApplyUseCase {
     private final ActionPerformPort actionPort;
 
     @Override
-    public void apply(Request.FactorModel factorModel) {
+    public Response.PolicyApplyResult apply(Request.FactorModel factorModel) {
         Policy policy = loadPort.loadById(factorModel.getPolicyId());
         Factor factor = FactorGenerator.gen(factorModel);
         Set<String> supportedVariable = policy.getSupportVariable(factor);
@@ -34,6 +35,8 @@ public class PolicyApplyService implements PolicyApplyUseCase {
         actions.forEach(action -> actionPort.perform(action, factor, supportedVariable));
 
         resetSpecs(policy, factor);
+
+        return new Response.PolicyApplyResult(policy.getPolicyId(), true);
     }
 
     private void resolveVariableSpecs(Policy policy, Factor factor, Set<String> supportedVariable) {

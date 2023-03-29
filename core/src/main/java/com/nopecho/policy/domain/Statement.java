@@ -37,8 +37,8 @@ public class Statement extends BaseTimeEntity {
     @JoinColumn(name = "policy_id")
     private Policy policy;
 
-    public static Statement of() {
-        return new Statement(null, new HashSet<>(), new HashSet<>(), new HashSet<>(), null);
+    public static Statement of(Set<String> supportVariables) {
+        return new Statement(null, supportVariables, new HashSet<>(), new HashSet<>(), null);
     }
 
     public boolean conditionCheck () {
@@ -70,9 +70,5 @@ public class Statement extends BaseTimeEntity {
     public void addAction(Action action) {
         this.actions.add(action);
         action.setStatement(this);
-    }
-
-    private static void throwIfInvalidArgs(Set<Action> actions) {
-        Throw.ifNull(actions, "Statement Action");
     }
 }

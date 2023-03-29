@@ -1,5 +1,6 @@
 package com.nopecho.policy.domain;
 
+import com.nopecho.policy.domain.exception.PolicyException;
 import com.nopecho.utils.Throw;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -8,7 +9,6 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -29,9 +29,9 @@ public class Policy extends BaseTimeEntity {
     @OneToMany(mappedBy = "policy", cascade = CascadeType.ALL)
     private Set<Statement> statements;
 
-    public static Policy of(Long id, String name, String description) {
-        throwIfInvalidArgs(id, name);
-        return new Policy(id, name, description, new HashSet<>());
+    public static Policy of(String name, String description) {
+        throwIfInvalidArgs(name);
+        return new Policy(null, name, description, new HashSet<>());
     }
 
     public Set<Spec> getSpecsFromSupported(Factor factor) {
@@ -42,11 +42,15 @@ public class Policy extends BaseTimeEntity {
     }
 
     public Set<Action> apply(Factor factor) {
-        return findSupportedStatement(factor).stream()
+        Set<Action> actions = findSupportedStatement(factor).stream()
                 .filter(Statement::conditionCheck)
                 .map(Statement::getActions)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
+        if(actions.isEmpty()) {
+            throw new PolicyException(String.format("ID:[%s] NAME:[%s] 정책을 만족하지 않습니다.", this.policyId, this.name));
+        }
+        return actions;
     }
 
     public Set<String> getSupportVariable(Factor factor) {
@@ -67,8 +71,7 @@ public class Policy extends BaseTimeEntity {
                 .collect(Collectors.toSet());
     }
 
-    private static void throwIfInvalidArgs(Long id, String name) {
-        Throw.ifNull(id, "Policy ID");
+    private static void throwIfInvalidArgs(String name) {
         Throw.ifNullOrBlank(name,"Policy Name");
     }
 }

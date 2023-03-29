@@ -1,4 +1,4 @@
-package com.nopecho.policy.adapters.out.external;
+package com.nopecho.policy.adapters.out.handlers;
 
 import com.nopecho.policy.domain.Factor;
 import com.nopecho.policy.domain.RequestTemplate;
@@ -20,7 +20,7 @@ public class VariableRequestHandlers {
         VariableRequestHandler handler = this.containers.stream()
                 .filter(h -> h.isSupport(template))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("지원하지 않는 요청 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException(template.toString() + " ::지원하지 않는 요청 입니다."));
 
         return handler.requestFor(template, factor, variables);
     }

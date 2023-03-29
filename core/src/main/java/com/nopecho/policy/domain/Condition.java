@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Table(name = "policy_statement_condition")
@@ -32,7 +33,8 @@ public class Condition extends BaseTimeEntity {
     private Statement statement;
 
     public static Condition of(String name, String description) {
-        return new Condition(null, name, description, new HashSet<>(), null);
+        String desc = Objects.requireNonNull(description, "NONE");
+        return new Condition(null, name, desc, new HashSet<>(), null);
     }
 
     public boolean isSatisfy() {

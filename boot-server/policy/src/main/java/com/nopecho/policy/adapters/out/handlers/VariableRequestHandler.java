@@ -1,4 +1,4 @@
-package com.nopecho.policy.adapters.out.external;
+package com.nopecho.policy.adapters.out.handlers;
 
 import com.nopecho.policy.domain.Factor;
 import com.nopecho.policy.domain.RequestTemplate;

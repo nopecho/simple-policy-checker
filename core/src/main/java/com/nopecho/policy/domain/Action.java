@@ -35,11 +35,11 @@ public class Action extends BaseTimeEntity {
     }
 
     public static Action ofAllowed(String name) {
-        return new Action(null, Objects.requireNonNull(name, ""), ActionType.AllOWED, RequestTemplate.none(), null);
+        return new Action(null, Objects.requireNonNull(name, ""), ActionType.AllOWED, RequestTemplate.none(RequestOwner.ACTION), null);
     }
 
     public static Action ofDeny(String name) {
-        return new Action(null, Objects.requireNonNull(name, ""), ActionType.DENY, RequestTemplate.none(), null);
+        return new Action(null, Objects.requireNonNull(name, ""), ActionType.DENY, RequestTemplate.none(RequestOwner.ACTION), null);
     }
 
     public boolean getActionValue() {

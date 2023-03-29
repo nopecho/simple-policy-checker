@@ -39,15 +39,15 @@ public class SpecActual {
 
     public <T> T getActualValue(Class<T> classOfT) {
         try {
-            Object toObject = OperatorMapper.convertToObject(this.operatorType, this.getResultIfNilThrow());
+            Object toObject = OperatorMapper.convertToObject(this.operatorType, this.getResultIfNullThrow());
             return classOfT.cast(toObject);
         } catch (Exception e) {
             throw new IllegalStateException(String.format("[%s] > [%s] 변환 실패::message:%s", this.tempResult, classOfT.getSimpleName(), e.getMessage()));
         }
     }
 
-    public String getResultIfNilThrow() {
-        if(this.tempResult.isBlank() || this.tempResult == null) {
+    public String getResultIfNullThrow() {
+        if(this.tempResult == null) {
             throw new IllegalStateException("결과를 먼저 할당 해야합니다.");
         }
         return this.tempResult;

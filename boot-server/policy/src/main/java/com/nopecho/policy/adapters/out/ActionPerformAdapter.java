@@ -1,6 +1,6 @@
 package com.nopecho.policy.adapters.out;
 
-import com.nopecho.policy.adapters.out.external.VariableRequestHandlers;
+import com.nopecho.policy.adapters.out.handlers.VariableRequestHandlers;
 import com.nopecho.policy.applications.ports.out.ActionPerformPort;
 import com.nopecho.policy.domain.Action;
 import com.nopecho.policy.domain.Factor;
@@ -8,7 +8,6 @@ import com.nopecho.policy.domain.RequestTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.Set;
 

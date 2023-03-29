@@ -1,14 +1,16 @@
-package com.nopecho.policy.applications.services.generators;
+package com.nopecho.policy.applications.services.factors;
 
 import com.nopecho.policy.domain.Factor;
 import com.nopecho.utils.JsonUtils;
-import lombok.Value;
+import lombok.*;
 
-@Value(staticConstructor = "of")
+@Getter @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UserWithProductFactor implements Factor {
 
-    String userId;
-    String productId;
+    private String userId;
+    private String productId;
 
     @Override
     public String toJsonString() {

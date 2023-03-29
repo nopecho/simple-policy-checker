@@ -1,5 +1,6 @@
 package com.nopecho.policy.adapters.in;
 
+import com.nopecho.policy.domain.exception.PolicyException;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +25,14 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public ResponseEntity<?> handleBadRequest(IllegalArgumentException e) {
+        log.error(e.getMessage());
+        return ResponseEntity.badRequest().body(
+                new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage())
+        );
+    }
+
+    @ExceptionHandler(PolicyException.class)
+    public ResponseEntity<?> handleBadRequest(PolicyException e) {
         log.error(e.getMessage());
         return ResponseEntity.badRequest().body(
                 new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage())
