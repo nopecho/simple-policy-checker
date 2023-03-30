@@ -2,5 +2,7 @@ rootProject.name = 'simple-policy-checker'
 include 'core'
 include 'boot-server'
 include 'boot-server:policy'
+include 'boot-server:policy-action'
 findProject(':boot-server:policy')?.name = 'policy'
+findProject(':boot-server:policy-action')?.name = 'policy-action'
 

@@ -1,7 +1,6 @@
 package com.nopecho.policy.domain;
 
 import com.nopecho.utils.JsonUtils;
-import com.nopecho.utils.Throw;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -25,7 +24,7 @@ public class Statement extends BaseTimeEntity {
     private Long id;
 
     @ElementCollection
-    private Set<String> supportVariables;
+    private Set<String> variables;
 
     @OneToMany(mappedBy = "statement", cascade = CascadeType.ALL)
     private Set<Action> actions;
@@ -47,7 +46,7 @@ public class Statement extends BaseTimeEntity {
     }
 
     public boolean isSupport(Factor factor) {
-        return this.supportVariables.stream()
+        return this.variables.stream()
                 .allMatch(key -> JsonUtils.isExistPropertyKeyFrom(factor, key));
     }
 

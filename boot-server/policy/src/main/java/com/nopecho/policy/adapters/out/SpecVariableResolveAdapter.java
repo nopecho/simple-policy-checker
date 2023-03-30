@@ -2,7 +2,7 @@ package com.nopecho.policy.adapters.out;
 
 
 import com.nopecho.policy.adapters.out.handlers.VariableRequestHandlers;
-import com.nopecho.policy.applications.ports.out.SpecVariablePort;
+import com.nopecho.policy.applications.ports.out.SpecVariableResolvePort;
 import com.nopecho.policy.domain.Factor;
 import com.nopecho.policy.domain.RequestTemplate;
 import com.nopecho.policy.domain.Spec;
@@ -15,7 +15,7 @@ import java.util.Set;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SpecVariableAdapter implements SpecVariablePort {
+public class SpecVariableResolveAdapter implements SpecVariableResolvePort {
 
     private final VariableRequestHandlers handlers;
 

@@ -13,39 +13,37 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
-@Transactional(readOnly = true)
+@Transactional
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class PolicyApplyService implements PolicyApplyUseCase {
 
-    private final PolicyLoadPort loadPort;
-    private final SpecVariablePort specVariablePort;
+    private final PolicyLoadPort policyLoadPort;
+    private final SpecVariableResolvePort specVariablePort;
     private final ActionPerformPort actionPort;
 
     @Override
     public Response.PolicyResult apply(Request.FactorModel factorModel) {
-        Policy policy = loadPort.loadById(factorModel.getPolicyId());
         Factor factor = FactorGenerator.gen(factorModel);
-        Set<String> supportedVariable = policy.getSupportVariable(factor);
+        Policy policy = policyLoadPort.loadById(factorModel.getPolicyId());
 
-        resolveVariableSpecs(policy, factor, supportedVariable);
+        Set<String> supportedVariables = policy.getSupportVariable(factor);
+        Set<Spec> supportedSpecs = policy.getSupportedSpecs(factor);
+        resolveSpecsVariable(supportedSpecs, factor, supportedVariables);
 
         Set<Action> actions = policy.apply(factor);
-        actions.forEach(action -> actionPort.perform(action, factor, supportedVariable));
+        actions.forEach(action -> actionPort.perform(action, factor, supportedVariables));
 
-        resetSpecs(policy, factor);
-
+        resetSpecs(supportedSpecs);
         return new Response.PolicyResult(policy.getPolicyId(), true);
     }
 
-    private void resolveVariableSpecs(Policy policy, Factor factor, Set<String> supportedVariable) {
-        policy.getSpecsFromSupported(factor)
-                .forEach(spec -> specVariablePort.resolve(spec, factor, supportedVariable));
+    private void resolveSpecsVariable(Set<Spec> specs, Factor factor, Set<String> variables) {
+        specs.forEach(spec -> specVariablePort.resolve(spec, factor, variables));
     }
 
-    private void resetSpecs(Policy policy, Factor factor) {
-        policy.getSpecsFromSupported(factor)
-                .forEach(spec -> spec.getActual().resetResult());
+    private void resetSpecs(Set<Spec> specs) {
+        specs.forEach(spec -> spec.getActual().resetResult());
     }
 }

@@ -1,13 +1,15 @@
 package com.nopecho.policy.adapters.out;
 
 import com.nopecho.policy.adapters.out.handlers.VariableRequestHandlers;
+import com.nopecho.policy.adapters.out.persistence.ActionHistoryRepository;
 import com.nopecho.policy.applications.ports.out.ActionPerformPort;
-import com.nopecho.policy.domain.Action;
-import com.nopecho.policy.domain.Factor;
-import com.nopecho.policy.domain.RequestTemplate;
+import com.nopecho.policy.domain.*;
+import com.nopecho.utils.JsonUtils;
+import com.nopecho.utils.KoreaClocks;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -17,11 +19,33 @@ import java.util.Set;
 public class ActionPerformAdapter implements ActionPerformPort {
 
     private final VariableRequestHandlers handlers;
+    private final ActionHistoryRepository repository;
 
     @Override
     public void perform(Action action, Factor factor, Set<String> variables) {
         RequestTemplate template = action.getTemplate();
 
-        handlers.handle(template, factor, variables);
+        ActionHistory history = getHistory(action.getId(), template, factor, variables);
+        try {
+            handlers.handle(template, factor, variables);
+            history.successFrom(KoreaClocks.now());
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            history.failFrom(KoreaClocks.now());
+        } finally {
+            repository.save(history);
+        }
+    }
+
+    private ActionHistory getHistory(Long actionId, RequestTemplate template, Factor factor, Set<String> variables) {
+        RequestTemplate historyTemplate = RequestTemplate.builder()
+                .owner(template.getOwner())
+                .requestType(template.getRequestType())
+                .method(template.getMethod())
+                .url(template.getUrl())
+                .body(template.replaceVariableBody(factor, variables))
+                .accessField(template.getAccessField())
+                .build();
+        return ActionHistory.of(actionId, JsonUtils.get().toJson(factor), historyTemplate);
     }
 }

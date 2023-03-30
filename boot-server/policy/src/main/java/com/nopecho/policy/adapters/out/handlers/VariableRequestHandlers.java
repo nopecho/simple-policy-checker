@@ -22,6 +22,6 @@ public class VariableRequestHandlers {
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException(template.toString() + " ::지원하지 않는 요청 입니다."));
 
-        return handler.requestFor(template, factor, variables);
+        return handler.handle(template, factor, variables);
     }
 }

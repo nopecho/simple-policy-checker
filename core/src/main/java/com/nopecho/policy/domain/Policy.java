@@ -1,6 +1,7 @@
 package com.nopecho.policy.domain;
 
 import com.nopecho.policy.domain.exception.PolicyException;
+import com.nopecho.utils.JsonUtils;
 import com.nopecho.utils.Throw;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -34,15 +35,15 @@ public class Policy extends BaseTimeEntity {
         return new Policy(null, name, description, new HashSet<>());
     }
 
-    public Set<Spec> getSpecsFromSupported(Factor factor) {
-        return findSupportedStatement(factor).stream()
+    public Set<Spec> getSupportedSpecs(Factor factor) {
+        return findOrThrowSupportedStatement(factor).stream()
                 .map(Statement::getSpecs)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
     }
 
     public Set<Action> apply(Factor factor) {
-        Set<Action> actions = findSupportedStatement(factor).stream()
+        Set<Action> actions = findOrThrowSupportedStatement(factor).stream()
                 .filter(Statement::conditionCheck)
                 .map(Statement::getActions)
                 .flatMap(Set::stream)
@@ -54,8 +55,8 @@ public class Policy extends BaseTimeEntity {
     }
 
     public Set<String> getSupportVariable(Factor factor) {
-        return findSupportedStatement(factor).stream()
-                .map(Statement::getSupportVariables)
+        return findOrThrowSupportedStatement(factor).stream()
+                .map(Statement::getVariables)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
     }
@@ -65,10 +66,15 @@ public class Policy extends BaseTimeEntity {
         statement.setPolicy(this);
     }
 
-    private Set<Statement> findSupportedStatement(Factor factor) {
-        return this.statements.stream()
+    private Set<Statement> findOrThrowSupportedStatement(Factor factor) {
+        Set<Statement> supportedStatements = this.statements.stream()
                 .filter(statement -> statement.isSupport(factor))
                 .collect(Collectors.toSet());
+        if(supportedStatements.isEmpty()) {
+            String message = String.format("policyId:[%s], name:[%s] 에서 지원되는 구문이 없습니다. factor:[%s]",this.policyId, this.name, JsonUtils.get().toJson(factor));
+            throw new IllegalArgumentException(message);
+        }
+        return supportedStatements;
     }
 
     private static void throwIfInvalidArgs(String name) {

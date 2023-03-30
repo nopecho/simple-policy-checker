@@ -20,7 +20,7 @@ public class DefaultSpecHttpHandler extends AbstractSpecHttpHandler{
     }
 
     @Override
-    public String requestFor(RequestTemplate template, Factor factor, Set<String> variables) {
+    public String handle(RequestTemplate template, Factor factor, Set<String> variables) {
         String method = template.getMethod().name();
         String url = template.getUrl();
         String body = template.replaceVariableBody(factor, variables);
@@ -28,9 +28,13 @@ public class DefaultSpecHttpHandler extends AbstractSpecHttpHandler{
         HttpMethod httpMethod = Objects.requireNonNull(HttpMethod.resolve(method));
         HttpEntity<String> httpBody = getHttpEntity(body);
 
-        ResponseEntity<String> res = restTemplate.exchange(url, httpMethod, httpBody, String.class);
-
-        return JsonUtils.getOrThrowJsonValue(res.getBody(), template.getAccessField());
+        try {
+            ResponseEntity<String> res = restTemplate.exchange(url, httpMethod, httpBody, String.class);
+            return JsonUtils.getOrThrowJsonValue(res.getBody(), template.getAccessField());
+        } catch (Exception e) {
+            String message = String.format("[%s %s] Spec Variable Resolve 요청을 수행하지 못했습니다.", httpMethod.name(), url);
+            throw new IllegalStateException(message);
+        }
     }
 
     @Override

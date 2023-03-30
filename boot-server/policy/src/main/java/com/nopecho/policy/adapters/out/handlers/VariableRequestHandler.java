@@ -6,6 +6,6 @@ import com.nopecho.policy.domain.RequestTemplate;
 import java.util.Set;
 
 public interface VariableRequestHandler {
-    String requestFor(RequestTemplate template, Factor factor, Set<String> variables);
+    String handle(RequestTemplate template, Factor factor, Set<String> variables);
     boolean isSupport(RequestTemplate template);
 }

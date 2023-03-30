@@ -19,17 +19,21 @@ public class DefaultActionHttpHandler extends AbstractActionHttpHandler {
     }
 
     @Override
-    public String requestFor(RequestTemplate template, Factor factor, Set<String> variables) {
+    public String handle(RequestTemplate template, Factor factor, Set<String> variables) {
         String method = template.getMethod().name();
         String url = template.getUrl();
         String body = template.replaceVariableBody(factor, variables);
 
         HttpMethod httpMethod = Objects.requireNonNull(HttpMethod.resolve(method));
-        HttpEntity<String> httpBody = getHttpEntity(body);
+        HttpEntity<String> httpEntity = getHttpEntity(body);
 
-        ResponseEntity<String> res = restTemplate.exchange(url, httpMethod, httpBody, String.class);
-
-        return res.getBody();
+        try {
+            ResponseEntity<String> res = restTemplate.exchange(url, httpMethod, httpEntity, String.class);
+            return res.getBody();
+        } catch (Exception e) {
+            String message = String.format("[%s %s] Action 요청을 수행하지 못했습니다.", httpMethod.name(), url);
+            throw new IllegalStateException(message);
+        }
     }
 
     @Override

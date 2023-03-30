@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: policy-action
+  config:
+    import: 'optional:configserver:http://config.co.kr'

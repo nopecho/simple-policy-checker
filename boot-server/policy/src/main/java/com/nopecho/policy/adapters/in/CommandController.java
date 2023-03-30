@@ -7,10 +7,7 @@ import com.nopecho.policy.applications.usecases.models.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -24,18 +21,18 @@ public class CommandController {
     private final PolicyCreateUseCase createUseCase;
 
     @PostMapping("/policy/apply")
-    public ResponseEntity<?> apply(@Valid @RequestBody Request.FactorModel model) {
-        Response.PolicyResult result = applyUseCase.apply(model);
+    public ResponseEntity<?> apply(@Valid @RequestBody Request.FactorModel requestedFactor) {
+        Response.PolicyResult result = applyUseCase.apply(requestedFactor);
 
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/policy")
-    public ResponseEntity<?> apply(@Valid @RequestBody Request.PolicyModel model) {
-        model.validate();
+    public ResponseEntity<?> apply(@Valid @RequestBody Request.PolicyModel requestedPolicy) {
+        requestedPolicy.validate();
+        Long policyId = createUseCase.create(requestedPolicy);
 
-        Long policyId = createUseCase.create(model);
-
-        return ResponseEntity.ok(new Response.PolicyResult(policyId, true));
+        Response.PolicyResult response = new Response.PolicyResult(policyId, true);
+        return ResponseEntity.ok(response);
     }
 }

@@ -4,7 +4,7 @@ import com.nopecho.policy.domain.Factor;
 import com.nopecho.utils.JsonUtils;
 import lombok.*;
 
-@Getter @Setter
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductFactor implements Factor {

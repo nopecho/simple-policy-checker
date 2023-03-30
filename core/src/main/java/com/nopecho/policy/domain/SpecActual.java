@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.Objects;
 
-@Table(name = "policy_spec_actual")
+@Table(name = "policy_condition_spec_actual")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

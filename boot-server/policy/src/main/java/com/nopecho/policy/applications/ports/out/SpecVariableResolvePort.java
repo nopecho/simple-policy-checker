@@ -6,7 +6,7 @@ import com.nopecho.policy.domain.Spec;
 
 import java.util.Set;
 
-public interface SpecVariablePort {
+public interface SpecVariableResolvePort {
 
     void resolve(Spec spec, Factor factor, Set<String> variables);
 }
