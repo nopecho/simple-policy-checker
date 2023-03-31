@@ -1,8 +1,8 @@
 package com.nopecho.policy.applications.services;
 
 import com.nopecho.policy.applications.ports.out.PolicySavePort;
-import com.nopecho.policy.applications.usecases.PolicyCreateUseCase;
-import com.nopecho.policy.applications.usecases.models.Request;
+import com.nopecho.policy.applications.ports.in.PolicyCreateUseCase;
+import com.nopecho.policy.applications.ports.in.models.Request;
 import com.nopecho.policy.domain.Policy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

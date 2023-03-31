@@ -1,6 +1,6 @@
 package com.nopecho.policy.applications.services.factors;
 
-import com.nopecho.policy.applications.usecases.models.Request;
+import com.nopecho.policy.applications.ports.in.models.Request;
 import com.nopecho.policy.domain.Factor;
 import com.nopecho.utils.JsonUtils;
 

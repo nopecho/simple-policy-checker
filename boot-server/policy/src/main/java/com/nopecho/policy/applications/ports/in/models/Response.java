@@ -1,4 +1,4 @@
-package com.nopecho.policy.applications.usecases.models;
+package com.nopecho.policy.applications.ports.in.models;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

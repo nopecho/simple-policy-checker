@@ -33,7 +33,7 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(PolicyException.class)
     public ResponseEntity<?> handleBadRequest(PolicyException e) {
-        log.error(e.getMessage());
+        log.info(e.getMessage());
         return ResponseEntity.badRequest().body(
                 new ErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage())
         );

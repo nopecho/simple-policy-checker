@@ -9,7 +9,6 @@ import com.nopecho.utils.KoreaClocks;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Set;
 
@@ -25,7 +24,7 @@ public class ActionPerformAdapter implements ActionPerformPort {
     public void perform(Action action, Factor factor, Set<String> variables) {
         RequestTemplate template = action.getTemplate();
 
-        ActionHistory history = getHistory(action.getId(), template, factor, variables);
+        ActionHistory history = createHistory(action.getId(), template, factor, variables);
         try {
             handlers.handle(template, factor, variables);
             history.successFrom(KoreaClocks.now());
@@ -37,7 +36,7 @@ public class ActionPerformAdapter implements ActionPerformPort {
         }
     }
 
-    private ActionHistory getHistory(Long actionId, RequestTemplate template, Factor factor, Set<String> variables) {
+    private ActionHistory createHistory(Long actionId, RequestTemplate template, Factor factor, Set<String> variables) {
         RequestTemplate historyTemplate = RequestTemplate.builder()
                 .owner(template.getOwner())
                 .requestType(template.getRequestType())

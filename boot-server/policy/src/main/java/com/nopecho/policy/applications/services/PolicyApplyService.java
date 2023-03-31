@@ -2,9 +2,9 @@ package com.nopecho.policy.applications.services;
 
 import com.nopecho.policy.applications.ports.out.*;
 import com.nopecho.policy.applications.services.factors.FactorGenerator;
-import com.nopecho.policy.applications.usecases.PolicyApplyUseCase;
-import com.nopecho.policy.applications.usecases.models.Request;
-import com.nopecho.policy.applications.usecases.models.Response;
+import com.nopecho.policy.applications.ports.in.PolicyApplyUseCase;
+import com.nopecho.policy.applications.ports.in.models.Request;
+import com.nopecho.policy.applications.ports.in.models.Response;
 import com.nopecho.policy.domain.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,12 +28,12 @@ public class PolicyApplyService implements PolicyApplyUseCase {
         Factor factor = FactorGenerator.gen(factorModel);
         Policy policy = policyLoadPort.loadById(factorModel.getPolicyId());
 
-        Set<String> supportedVariables = policy.getSupportVariable(factor);
-        Set<Spec> supportedSpecs = policy.getSupportedSpecs(factor);
-        resolveSpecsVariable(supportedSpecs, factor, supportedVariables);
+        Set<String> supportedFactorKeys = policy.getSupportFactorKeys(factor);
+        Set<Spec> supportedSpecs = policy.getSupportSpecs(factor);
+        resolveSpecsVariable(supportedSpecs, factor, supportedFactorKeys);
 
         Set<Action> actions = policy.apply(factor);
-        actions.forEach(action -> actionPort.perform(action, factor, supportedVariables));
+        actions.forEach(action -> actionPort.perform(action, factor, supportedFactorKeys));
 
         resetSpecs(supportedSpecs);
         return new Response.PolicyResult(policy.getPolicyId(), true);

@@ -1,4 +1,4 @@
-package com.nopecho.policy.applications.usecases.models;
+package com.nopecho.policy.applications.ports.in.models;
 
 import com.nopecho.policy.domain.*;
 import lombok.AllArgsConstructor;
@@ -56,7 +56,7 @@ public interface Request {
     @AllArgsConstructor
     class StatementModel {
         @NotNull
-        Set<String> supportVariables;
+        Set<String> supportFactorKeys;
 
         @NotNull
         @NotEmpty
@@ -71,7 +71,7 @@ public interface Request {
         }
 
         public Statement toEntity() {
-            Statement statement = Statement.of(this.supportVariables);
+            Statement statement = Statement.of(this.supportFactorKeys);
 
             this.actions.stream()
                     .map(ActionModel::toEntity)

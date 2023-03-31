@@ -30,10 +30,12 @@ public class DefaultSpecHttpHandler extends AbstractSpecHttpHandler{
 
         try {
             ResponseEntity<String> res = restTemplate.exchange(url, httpMethod, httpBody, String.class);
-            return JsonUtils.getOrThrowJsonValue(res.getBody(), template.getAccessField());
+            if(res.getStatusCode().is2xxSuccessful()) {
+                return JsonUtils.getOrThrowJsonValue(res.getBody(), template.getAccessField());
+            }
+            throw new IllegalStateException(requestFailMassage(method, url));
         } catch (Exception e) {
-            String message = String.format("[%s %s] Spec Variable Resolve 요청을 수행하지 못했습니다.", httpMethod.name(), url);
-            throw new IllegalStateException(message);
+            throw new IllegalStateException(requestFailMassage(method, url));
         }
     }
 
@@ -48,5 +50,9 @@ public class DefaultSpecHttpHandler extends AbstractSpecHttpHandler{
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(body, httpHeaders);
+    }
+
+    private String requestFailMassage(String method, String url) {
+        return String.format("[%s %s] Spec Variable Resolve 요청을 수행하지 못했습니다.", method, url);
     }
 }

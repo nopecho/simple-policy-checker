@@ -35,7 +35,7 @@ public class Policy extends BaseTimeEntity {
         return new Policy(null, name, description, new HashSet<>());
     }
 
-    public Set<Spec> getSupportedSpecs(Factor factor) {
+    public Set<Spec> getSupportSpecs(Factor factor) {
         return findOrThrowSupportedStatement(factor).stream()
                 .map(Statement::getSpecs)
                 .flatMap(Set::stream)
@@ -49,14 +49,14 @@ public class Policy extends BaseTimeEntity {
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
         if(actions.isEmpty()) {
-            throw new PolicyException(String.format("ID:[%s] NAME:[%s] 정책을 만족하지 않습니다.", this.policyId, this.name));
+            throw new PolicyException(String.format("PolicyId:[%s] PolicyName:[%s] 정책을 만족하지 않습니다. Factor:%s", this.policyId, this.name, JsonUtils.get().toJson(factor)));
         }
         return actions;
     }
 
-    public Set<String> getSupportVariable(Factor factor) {
+    public Set<String> getSupportFactorKeys(Factor factor) {
         return findOrThrowSupportedStatement(factor).stream()
-                .map(Statement::getVariables)
+                .map(Statement::getFactorKeys)
                 .flatMap(Set::stream)
                 .collect(Collectors.toSet());
     }

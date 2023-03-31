@@ -31,11 +31,14 @@ public class ActionHistory extends BaseTimeEntity {
 
     private ZonedDateTime occurredAt;
 
+    private int threshold;
+
     @Version
     private long version;
 
     public static ActionHistory of(Long actionId, String factor, RequestTemplate template) {
-        return new ActionHistory(null, actionId, factor, HistoryStatus.PENDING, template, null, 0);
+
+        return new ActionHistory(null, actionId, factor, HistoryStatus.PENDING, template, null, 5, 0);
     }
 
     public void failFrom(ZonedDateTime occurredAt) {
@@ -46,5 +49,15 @@ public class ActionHistory extends BaseTimeEntity {
     public void successFrom(ZonedDateTime occurredAt) {
         this.status = HistoryStatus.SUCCESS;
         this.occurredAt = occurredAt;
+    }
+
+    public boolean isReachThreshold() {
+        return this.status.equals(HistoryStatus.FAIL)
+                && this.version >= this.threshold;
+    }
+
+    public boolean isNotReachThreshold() {
+        return this.status.equals(HistoryStatus.FAIL)
+                && this.version <= this.threshold;
     }
 }

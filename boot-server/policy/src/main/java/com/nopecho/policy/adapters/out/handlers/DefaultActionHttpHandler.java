@@ -29,10 +29,12 @@ public class DefaultActionHttpHandler extends AbstractActionHttpHandler {
 
         try {
             ResponseEntity<String> res = restTemplate.exchange(url, httpMethod, httpEntity, String.class);
-            return res.getBody();
+            if(res.getStatusCode().is2xxSuccessful()) {
+                return res.getBody();
+            }
+            throw new IllegalStateException(requestFailMassage(method, url));
         } catch (Exception e) {
-            String message = String.format("[%s %s] Action 요청을 수행하지 못했습니다.", httpMethod.name(), url);
-            throw new IllegalStateException(message);
+            throw new IllegalStateException(requestFailMassage(method, url));
         }
     }
 
@@ -47,5 +49,9 @@ public class DefaultActionHttpHandler extends AbstractActionHttpHandler {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.setContentType(MediaType.APPLICATION_JSON);
         return new HttpEntity<>(body, httpHeaders);
+    }
+
+    private String requestFailMassage(String method, String url) {
+        return String.format("[%s %s] Action 요청을 수행하지 못했습니다.", method, url);
     }
 }
