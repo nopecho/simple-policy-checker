@@ -1,5 +1,6 @@
 package com.nopecho.policy.domain;
 
+import com.nopecho.policy.domain.factors.Factor;
 import com.nopecho.utils.JsonUtils;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -59,6 +60,10 @@ public class Statement extends BaseTimeEntity {
 
     public void setPolicy(Policy policy) {
         this.policy = policy;
+    }
+
+    public void removePolicy(){
+        this.policy = null;
     }
 
     public void addCondition(Condition condition) {

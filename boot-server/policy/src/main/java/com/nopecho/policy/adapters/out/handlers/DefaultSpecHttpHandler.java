@@ -1,6 +1,6 @@
 package com.nopecho.policy.adapters.out.handlers;
 
-import com.nopecho.policy.domain.Factor;
+import com.nopecho.policy.domain.factors.Factor;
 import com.nopecho.policy.domain.RequestOwner;
 import com.nopecho.policy.domain.RequestTemplate;
 import com.nopecho.policy.domain.RequestType;

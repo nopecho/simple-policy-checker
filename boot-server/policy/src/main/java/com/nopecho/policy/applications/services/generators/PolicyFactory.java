@@ -1,4 +1,4 @@
-package com.nopecho.policy.applications.services;
+package com.nopecho.policy.applications.services.generators;
 
 import com.nopecho.policy.applications.ports.in.models.Request;
 import com.nopecho.policy.domain.Policy;

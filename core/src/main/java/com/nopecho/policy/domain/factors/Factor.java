@@ -1,4 +1,4 @@
-package com.nopecho.policy.domain;
+package com.nopecho.policy.domain.factors;
 
 
 public interface Factor {

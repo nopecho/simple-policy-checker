@@ -1,7 +1,10 @@
-package com.nopecho.policy.applications.services.factors;
+package com.nopecho.policy.applications.services.generators;
 
 import com.nopecho.policy.applications.ports.in.models.Request;
-import com.nopecho.policy.domain.Factor;
+import com.nopecho.policy.domain.factors.Factor;
+import com.nopecho.policy.domain.factors.ProductFactor;
+import com.nopecho.policy.domain.factors.UserFactor;
+import com.nopecho.policy.domain.factors.UserWithProductFactor;
 import com.nopecho.utils.JsonUtils;
 
 import java.util.List;
@@ -21,7 +24,8 @@ public class FactorGenerator {
         Class<? extends Factor> factorClass = supportedClass.stream()
                 .filter(clazz -> filterSupportType(toJson, clazz))
                 .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("지원 되지 않는 Factor 타입 입니다."));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("지원 되지 않는 Factor 입니다. factor: %s", toJson)));
 
         return JsonUtils.get().fromJson(toJson,factorClass);
     }

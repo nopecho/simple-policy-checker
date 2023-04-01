@@ -1,16 +1,15 @@
-package com.nopecho.policy.applications.services.factors;
+package com.nopecho.policy.domain.factors;
 
-import com.nopecho.policy.domain.Factor;
+import com.nopecho.policy.domain.factors.Factor;
 import com.nopecho.utils.JsonUtils;
 import lombok.*;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserWithProductFactor implements Factor {
+public class UserFactor implements Factor {
 
     private String userId;
-    private String productId;
 
     @Override
     public String toJsonString() {

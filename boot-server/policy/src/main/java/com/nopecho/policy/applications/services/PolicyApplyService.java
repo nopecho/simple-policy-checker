@@ -1,11 +1,12 @@
 package com.nopecho.policy.applications.services;
 
 import com.nopecho.policy.applications.ports.out.*;
-import com.nopecho.policy.applications.services.factors.FactorGenerator;
+import com.nopecho.policy.applications.services.generators.FactorGenerator;
 import com.nopecho.policy.applications.ports.in.PolicyApplyUseCase;
 import com.nopecho.policy.applications.ports.in.models.Request;
 import com.nopecho.policy.applications.ports.in.models.Response;
 import com.nopecho.policy.domain.*;
+import com.nopecho.policy.domain.factors.Factor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

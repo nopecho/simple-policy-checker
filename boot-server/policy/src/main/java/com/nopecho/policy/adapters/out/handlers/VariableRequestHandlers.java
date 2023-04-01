@@ -1,6 +1,6 @@
 package com.nopecho.policy.adapters.out.handlers;
 
-import com.nopecho.policy.domain.Factor;
+import com.nopecho.policy.domain.factors.Factor;
 import com.nopecho.policy.domain.RequestTemplate;
 
 import java.util.ArrayList;

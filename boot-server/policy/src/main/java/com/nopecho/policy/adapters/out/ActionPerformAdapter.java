@@ -4,6 +4,7 @@ import com.nopecho.policy.adapters.out.handlers.VariableRequestHandlers;
 import com.nopecho.policy.adapters.out.persistence.ActionHistoryRepository;
 import com.nopecho.policy.applications.ports.out.ActionPerformPort;
 import com.nopecho.policy.domain.*;
+import com.nopecho.policy.domain.factors.Factor;
 import com.nopecho.utils.JsonUtils;
 import com.nopecho.utils.KoreaClocks;
 import lombok.RequiredArgsConstructor;

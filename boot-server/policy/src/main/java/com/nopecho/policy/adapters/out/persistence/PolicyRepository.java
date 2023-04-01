@@ -18,26 +18,32 @@ public interface PolicyRepository extends JpaRepository<Policy, Long> {
 
     @EntityGraph(attributePaths = {
             "statements",
+            "statements.factorKeys",
             "statements.actions",
             "statements.conditions",
-            "statements.conditions.specs"
+            "statements.conditions.specs",
+            "statements.conditions.specs.actual"
     })
     @Query("SELECT p FROM Policy p WHERE p.id IN :ids")
     Set<Policy> findByIds(@Param("ids") List<Long> ids);
 
     @EntityGraph(attributePaths = {
             "statements",
+            "statements.factorKeys",
             "statements.actions",
             "statements.conditions",
-            "statements.conditions.specs"
+            "statements.conditions.specs",
+            "statements.conditions.specs.actual"
     })
     Optional<Policy> findById(Long id);
 
     @EntityGraph(attributePaths = {
             "statements",
+            "statements.factorKeys",
             "statements.actions",
             "statements.conditions",
-            "statements.conditions.specs"
+            "statements.conditions.specs",
+            "statements.conditions.specs.actual"
     })
     Page<Policy> findAll(Pageable pageable);
 }
