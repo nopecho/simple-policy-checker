@@ -9,6 +9,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 public interface Request {
 
@@ -48,6 +49,12 @@ public interface Request {
                     .forEach(policy::addStatement);
 
             return policy;
+        }
+
+        public Set<Statement> toStatements() {
+            return this.statements.stream()
+                    .map(StatementModel::toEntity)
+                    .collect(Collectors.toSet());
         }
     }
 

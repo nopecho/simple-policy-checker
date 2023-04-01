@@ -35,7 +35,7 @@ public class PolicyCommandService implements PolicyCreateUseCase, PolicyUpdateUs
     @Override
     public Response.PolicyModel update(Long id, Request.PolicyModel policyModel) {
         Policy policy = loadPort.loadById(id);
-        Set<Statement> statements = policyModel.toEntity().getStatements();
+        Set<Statement> statements = policyModel.toStatements();
 
         policy.removeStatements();
         policy.change(policyModel.getName(), policyModel.getDescription(), statements);
