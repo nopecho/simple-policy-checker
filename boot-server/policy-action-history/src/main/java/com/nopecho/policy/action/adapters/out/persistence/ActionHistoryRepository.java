@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ActionHistoryRepository extends JpaRepository<ActionHistory, Long> {
@@ -15,4 +16,6 @@ public interface ActionHistoryRepository extends JpaRepository<ActionHistory, Lo
     List<ActionHistory> findByStatus(HistoryStatus status);
 
     Page<ActionHistory> findAll(Pageable pageable);
+
+    Optional<ActionHistory> findByIdAndStatus(Long id, HistoryStatus status);
 }

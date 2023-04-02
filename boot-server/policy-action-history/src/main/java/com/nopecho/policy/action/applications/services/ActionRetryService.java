@@ -38,7 +38,7 @@ public class ActionRetryService implements ActionRetryUseCase {
 
     @Override
     public Response.RetryResult retryById(Long id) {
-        ActionHistory actionHistory = loadPort.loadById(id);
+        ActionHistory actionHistory = loadPort.loadByIdAndStatus(id, HistoryStatus.FAIL);
 
         boolean result = performPort.perform(actionHistory);
 

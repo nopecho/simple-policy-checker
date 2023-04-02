@@ -14,4 +14,6 @@ public interface ActionHistoryLoadPort {
     Slice<ActionHistory> loadAllByPageable(Pageable pageable);
 
     ActionHistory loadById(Long id);
+
+    ActionHistory loadByIdAndStatus(Long id, HistoryStatus status);
 }

@@ -35,4 +35,11 @@ public class HistoryPersistenceAdapter implements ActionHistoryLoadPort {
                 .orElseThrow(() -> new IllegalArgumentException(
                         String.format("[ID: %s]ActionHistory 가 존재하지 않습니다.", id)));
     }
+
+    @Override
+    public ActionHistory loadByIdAndStatus(Long id, HistoryStatus status) {
+        return repository.findByIdAndStatus(id, status)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("[ID: %s, STATUS: %s]ActionHistory 가 존재하지 않습니다.", id, status.name())));
+    }
 }
