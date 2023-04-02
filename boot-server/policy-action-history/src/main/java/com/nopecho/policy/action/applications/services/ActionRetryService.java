@@ -1,6 +1,7 @@
 package com.nopecho.policy.action.applications.services;
 
 import com.nopecho.policy.action.applications.ports.in.ActionRetryUseCase;
+import com.nopecho.policy.action.applications.ports.in.models.Response;
 import com.nopecho.policy.action.applications.ports.out.ActionHistoryLoadPort;
 import com.nopecho.policy.action.applications.ports.out.ActionHistoryPerformPort;
 import com.nopecho.policy.action.applications.ports.out.NotificationPublishPort;
@@ -25,7 +26,7 @@ public class ActionRetryService implements ActionRetryUseCase {
     private final NotificationPublishPort notificationPort;
 
     @Override
-    public void retry() {
+    public void retryAll() {
         List<ActionHistory> failedHistory = loadPort.loadByStatus(HistoryStatus.FAIL);
 
         notificationForThresholdHistory(failedHistory);
@@ -33,6 +34,15 @@ public class ActionRetryService implements ActionRetryUseCase {
         failedHistory.stream()
                 .filter(ActionHistory::isNotReachThreshold)
                 .forEach(performPort::perform);
+    }
+
+    @Override
+    public Response.RetryResult retryById(Long id) {
+        ActionHistory actionHistory = loadPort.loadById(id);
+
+        boolean result = performPort.perform(actionHistory);
+
+        return new Response.RetryResult(actionHistory.getId(), result);
     }
 
     private void notificationForThresholdHistory(List<ActionHistory> failedHistory) {

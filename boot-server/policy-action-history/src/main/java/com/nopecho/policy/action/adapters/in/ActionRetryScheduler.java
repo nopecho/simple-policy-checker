@@ -19,6 +19,6 @@ public class ActionRetryScheduler {
     @Async
     @Scheduled(cron = "0 0/5 * * * ?") // 5분 간격
     public void retry() {
-        retryUseCase.retry();
+        retryUseCase.retryAll();
     }
 }
