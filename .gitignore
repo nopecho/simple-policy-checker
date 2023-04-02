@@ -87,8 +87,8 @@ cmake-build-*/
 out/
 !boot-server/policy/src/main/java/com/nopecho/policy/adapters/out
 !boot-server/policy/src/main/java/com/nopecho/policy/applications/ports/out
-!boot-server/policy-action/src/main/java/com/nopecho/policy/action/adapters/out
-!boot-server/policy-action/src/main/java/com/nopecho/policy/action/applications/ports/out
+!boot-server/policy-action-history/src/main/java/com/nopecho/policy/action/adapters/out
+!boot-server/policy-action-history/src/main/java/com/nopecho/policy/action/applications/ports/out
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
