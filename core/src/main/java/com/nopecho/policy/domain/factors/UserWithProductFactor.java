@@ -1,6 +1,5 @@
 package com.nopecho.policy.domain.factors;
 
-import com.nopecho.policy.domain.factors.Factor;
 import com.nopecho.utils.JsonUtils;
 import lombok.*;
 

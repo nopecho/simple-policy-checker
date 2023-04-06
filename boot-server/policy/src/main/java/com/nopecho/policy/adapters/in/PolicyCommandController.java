@@ -27,7 +27,7 @@ public class PolicyCommandController {
     public ResponseEntity<?> apply(@Valid @RequestBody Request.FactorModel requestedFactor) {
         Response.PolicyResult result = applyUseCase.apply(requestedFactor);
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(result);
+        return ResponseEntity.ok(result);
     }
 
     @PostMapping("/policies")
@@ -37,7 +37,7 @@ public class PolicyCommandController {
 
         Response.PolicyResult response = new Response.PolicyResult(policyId, true);
 
-        return ResponseEntity.ok(response);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PutMapping("/policies/{policyId}")

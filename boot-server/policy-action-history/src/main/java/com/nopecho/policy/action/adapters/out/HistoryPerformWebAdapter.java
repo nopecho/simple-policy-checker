@@ -16,7 +16,7 @@ import java.util.Objects;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class HistoryPerformAdapter implements ActionHistoryPerformPort {
+public class HistoryPerformWebAdapter implements ActionHistoryPerformPort {
 
     private final ActionHistoryRepository repository;
     private final RestTemplate restTemplate;

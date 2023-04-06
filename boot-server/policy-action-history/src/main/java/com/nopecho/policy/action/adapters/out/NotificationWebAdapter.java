@@ -9,7 +9,7 @@ import org.springframework.web.client.RestTemplate;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class NotificationAdapter implements NotificationPublishPort {
+public class NotificationWebAdapter implements NotificationPublishPort {
 
     private final RestTemplate restTemplate;
 

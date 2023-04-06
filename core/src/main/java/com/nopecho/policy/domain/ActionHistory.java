@@ -58,6 +58,6 @@ public class ActionHistory extends BaseTimeEntity {
 
     public boolean isNotReachThreshold() {
         return this.status.equals(HistoryStatus.FAIL)
-                && this.version <= this.threshold;
+                && this.version < this.threshold;
     }
 }

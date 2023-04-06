@@ -42,12 +42,6 @@ public class Spec extends BaseTimeEntity {
         this.condition = condition;
     }
 
-    private static void throwIfInvalidArgs(SpecActual actual, Operator operator, SpecExpect expect) {
-        Throw.ifNull(actual, "Condition Spec Actual");
-        Throw.ifNull(operator, "Condition Spec Operator");
-        Throw.ifNull(expect, "Condition Spec Expectation");
-    }
-
     public boolean isSatisfy() {
         SpecActual actual = this.actual;
         SpecExpect expect = this.expect;
@@ -59,5 +53,11 @@ public class Spec extends BaseTimeEntity {
         if(!type1.equals(type2)) {
             throw new IllegalStateException(String.format("[%s] != [%s] 같은 타입만 연산이 가능합니다.", type1.name(), type2.name()));
         }
+    }
+
+    private static void throwIfInvalidArgs(SpecActual actual, Operator operator, SpecExpect expect) {
+        Throw.ifNull(actual, "Condition Spec Actual");
+        Throw.ifNull(operator, "Condition Spec Operator");
+        Throw.ifNull(expect, "Condition Spec Expectation");
     }
 }

@@ -15,7 +15,7 @@ import java.util.Set;
 @Slf4j
 @Component
 @RequiredArgsConstructor
-public class SpecVariableResolveAdapter implements SpecVariableResolvePort {
+public class SpecVariableResolveWebAdapter implements SpecVariableResolvePort {
 
     private final VariableRequestHandlers handlers;
 
